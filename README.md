@@ -13,4 +13,3 @@ Startup Guide
              alias manage="python manage.py"
              alias runserver="manage runserver 0.0.0.0:8000"
         2. Now exit the vm, and reconnect and you should see your virtual environment activated, and you should be inside the vagrant environemnt.
-  

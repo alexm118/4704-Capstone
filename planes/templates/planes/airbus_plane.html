@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s4">
+            Airbus Model - {{ plane.model }}
+        </div>
+        <div class="col s4">
+            Range - {{ plane.plane_range }}
+        </div>
+        <div class="col s4">
+            Seating - {{ plane.seating }}
+        </div>
+    </div>
+{% endblock %}
