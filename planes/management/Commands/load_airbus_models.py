@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
-from planes.models import AirbusPlane
+from planes.models import AirbusPlane, Engine
 
 
 class Command(BaseCommand):
@@ -30,6 +30,23 @@ class Command(BaseCommand):
             manufacturer = "Airbus"
             bulk_hold_volume = soup(text="Bulk hold volume")[0].find_next("span", class_="metric").get_text()
             total_volume = soup(text="Total volume (Bulk loading)")[0].find_next("span", class_="metric").get_text()
+            engine_list = []
+            engine_name_elements = soup.find("div", {"id": "box-engines"}).find_all("th")
+            for element in engine_name_elements:
+                if element.find("i"):
+                    engine_list.append(str(element.find("i").get_text()))
+
+            engines = []
+
+            for engine in engine_list:
+                if Engine.objects.filter(name=engine).exists():
+                    engine_model = Engine.objects.filter(name=engine).first()
+                    engines.append(engine_model)
+                else:
+                    engine_model = Engine(name=engine)
+                    engine_model.save()
+                    engines.append(engine_model)
+
             if AirbusPlane.objects.filter(model=model).exists():
                 plane = AirbusPlane.objects.filter(model=model).first()
                 print plane.model
@@ -38,5 +55,8 @@ class Command(BaseCommand):
                 plane = AirbusPlane(model=model, plane_range=range, seating=seating, overall_length=length,
                                     overall_height=height, wingspan=wingspan, manufacturer=manufacturer,
                                     bulk_hold_volume=bulk_hold_volume, total_volume=total_volume)
+                plane.save()
+                print(engines)
+                plane.engines.add(*engines)
                 plane.save()
                 print plane.model
