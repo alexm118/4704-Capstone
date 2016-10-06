@@ -24,12 +24,19 @@ class Command(BaseCommand):
             range = soup(text="Range")[0].find_next("span", class_="metric").get_text()
             seating = soup.find("div", class_="max-pax").contents[-2].get_text()
             model = url.split("/")[-3]
-
+            length = soup.find("div", class_="overall-length").find_next("span", class_="metric").get_text()
+            height = soup.find("div", class_="height").find_next("span", class_="metric").get_text()
+            wingspan = soup.find("div", class_="wing-span").find_next("span", class_="metric").get_text()
+            manufacturer = "Airbus"
+            bulk_hold_volume = soup(text="Bulk hold volume")[0].find_next("span", class_="metric").get_text()
+            total_volume = soup(text="Total volume (Bulk loading)")[0].find_next("span", class_="metric").get_text()
             if AirbusPlane.objects.filter(model=model).exists():
                 plane = AirbusPlane.objects.filter(model=model).first()
                 print plane.model
 
             else:
-                plane = AirbusPlane(model=model, plane_range=range, seating=seating)
+                plane = AirbusPlane(model=model, plane_range=range, seating=seating, overall_length=length,
+                                    overall_height=height, wingspan=wingspan, manufacturer=manufacturer,
+                                    bulk_hold_volume=bulk_hold_volume, total_volume=total_volume)
                 plane.save()
                 print plane.model
