@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from planes.models import AirbusPlane
 
+
 class AirbusPlaneSerializer(serializers.ModelSerializer):
     engines = serializers.StringRelatedField(many=True)
 
