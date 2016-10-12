@@ -1,28 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row">
-        <div class="col s4">
-            Model
-        </div>
-        <div class="col s4">
-            Range
-        </div>
-        <div class="col s4">
-            Seating Capacity
-        </div>
-    </div>
-    {% for plane in planes %}
-        <div class="row">
-            <div class="col s4">
-                 <a href="{{ plane.id }}">{{ plane.model }}</a>
-            </div>
-            <div class="col s4">
-                {{ plane.plane_range }}
-            </div>
-            <div class="col s4">
-                {{ plane.seating }} people
-            </div>
-        </div>
-    {% endfor %}
+    <table class="bordered highlight">
+        <thead>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>More Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plane in planes %}
+                <tr>
+                    <td>{{ plane.manufacturer }}</td>
+                    <td>{{ plane.model }}</td>
+                    <td><a href="/planes/{{ plane.id }}">See More</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
