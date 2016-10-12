@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="striped bordered">
+        <thead>
+            <tr>
+                <th>Specification</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Manufacturer</td>
+                <td>{{ plane.manufacturer }}</td>
+            </tr>
+            <tr>
+                <td>Model</td>
+                <td>{{ plane.model }}</td>
+            </tr>
+            <tr>
+                <td>Range</td>
+                <td>{{ plane.plane_range }}</td>
+            </tr>
+            <tr>
+                <td>Seating</td>
+                <td>{{ plane.seating }}</td>
+            </tr>
+            <tr>
+                <td>Wingspan</td>
+                <td>{{ plane.wingspan }}</td>
+            </tr>
+            <tr>
+                <td>Length</td>
+                <td>{{ plane.overall_length }}</td>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td>{{ plane.overall_height }}</td>
+            </tr>
+            <tr>
+                <td>Bulk Hold Volume</td>
+                <td>{{ plane.bulk_hold_volume }}</td>
+            </tr>
+            <tr>
+                <td>Total Volume</td>
+                <td>{{ plane.total_volume }}</td>
+            </tr>
+            {% for engine in plane.engines.all %}
+                <tr>
+                    <td>Engine</td>
+                    <td>{{ engine }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

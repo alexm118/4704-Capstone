@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from planes.views import display_plane, list_planes
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^planes/(?P<id>[0-9]+)/$', display_plane, name="display_planes"),
+    url(r'^planes/$',list_planes, name="plane_list")
 ]
