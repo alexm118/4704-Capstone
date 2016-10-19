@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from planes.models import AirbusPlane
+from planes.models import AirbusPlane, Plane
 
 
 # Create your views here.
@@ -9,5 +9,5 @@ def display_plane(request, id):
 
 
 def list_planes(request):
-    planes = AirbusPlane.objects.all()
+    planes = Plane.objects.all().order_by('manufacturer', 'model')
     return render(request, "planes/plane_list.html", context={'planes': planes})
