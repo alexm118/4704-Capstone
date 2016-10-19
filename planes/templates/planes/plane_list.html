@@ -1,22 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <table class="bordered highlight">
-        <thead>
-            <tr>
-                <th>Manufacturer</th>
-                <th>Model</th>
-                <th>More Information</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for plane in planes %}
-                <tr>
-                    <td>{{ plane.manufacturer }}</td>
-                    <td>{{ plane.model }}</td>
-                    <td><a href="/planes/{{ plane.id }}">See More</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <form id="search_form">
+        <div class="row">
+            <div class="valign-wrapper">
+                <div class="valign">
+                    <div class="input-field">
+                        {{ form.manufacturer }}
+                        <label for="id_manufacturer">Select Manufacturer</label>
+                    </div>
+                </div>
+                <div class="valign col push-s1">
+                    <input type="button" id="search_button" class="waves-effect waves-light btn blue" value="Search">
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="plane_list">
+        {% include 'planes/tables/plane_table.html' %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            $('#id_manufacturer').material_select();
+        });
+
+        $('#search_button').click(function(){
+            var manufacturer = $('#id_manufacturer').val();
+            $.ajax({
+                type: "POST",
+                url: "/planes/filter/manufacturer/" + manufacturer + '/',
+                data: $('#search_form').serialize(),
+                success: function(data){
+                    $('#plane_list').html();
+                    $('#plane_list').html(data);
+                },
+                error: function() {
+                    alert('Error submitting form');
+                }
+            }) ;
+        });
+
+    </script>
 {% endblock %}
