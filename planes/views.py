@@ -18,3 +18,8 @@ def airbus_rest_plane(request, id):
     plane = AirbusPlane.objects.get(id=id)
     serializer = AirbusPlaneSerializer(plane)
     return JsonResponse(serializer.data)
+
+def boeing_rest_plane(request, id):
+    plane = BoeingPlane.objects.get(id=id)
+    serializer = BoeingPlaneSerializer(plane)
+    return JsonResponse(serializer.data)
