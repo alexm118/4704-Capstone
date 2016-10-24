@@ -24,8 +24,11 @@ def airbus_rest_plane(request, id):
 
 def filter_plane_list(request, id):
     if request.method == 'GET':
-        manufacturer = get_object_or_404(Manufacturer, id=id)
-        planes = Plane.objects.filter(manufacturer=manufacturer)
+        if int(id) != 10000:
+            manufacturer = get_object_or_404(Manufacturer, id=id)
+            planes = Plane.objects.filter(manufacturer=manufacturer)
+        else:
+            planes = Plane.objects.all()
         return render(request, 'planes/panels/plane_table.html', context={'planes': planes})
     else:
         print('Invalid access')

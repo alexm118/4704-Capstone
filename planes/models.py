@@ -24,7 +24,7 @@ class Plane(models.Model):
 
     def get_unique_manufacturers(self):
         planes = Plane.objects.all()
-        manufacturer_list = []
+        manufacturer_list = [(10000, 'All'),]
         for plane in planes:
             tuple = (plane.manufacturer.id, plane.manufacturer)
             if tuple not in manufacturer_list:
