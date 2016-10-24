@@ -6,14 +6,14 @@ from django.db import models
 class Engine(models.Model):
     name = models.CharField(max_length=25)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
 class Manufacturer(models.Model):
     name = models.CharField(max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
@@ -31,8 +31,8 @@ class Plane(models.Model):
                 manufacturer_list.append(tuple)
         return manufacturer_list
 
-    def __str__(self):
-        return self.manufacturer
+    def __unicode__(self):
+        return self.manufacturer.name
 
 
 class AirbusPlane(Plane):
@@ -45,7 +45,7 @@ class AirbusPlane(Plane):
     total_volume = models.CharField(max_length=25)
     thrust = models.CharField(max_length=25)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.model
 
 class GulfstreamPlane(Plane):
@@ -59,5 +59,5 @@ class GulfstreamPlane(Plane):
     thrust = models.CharField(max_length=25)
     #engines = models.ManyToManyField(Engine, related_name='gstream_engines')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.model

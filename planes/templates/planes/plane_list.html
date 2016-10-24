@@ -9,12 +9,12 @@
                     <label for="id_manufacturer">Select Manufacturer</label>
                 </div>
             </div>
-            <div class="col s3">
-                <button class="waves-effect waves-light btn blue" id="search_button">Search</button>
-            </div>
         </div>
     </form>
-    <div class="plane_list">
+    <div class="col s3">
+        <button class="waves-effect waves-light btn blue" id="search_button">Search</button>
+    </div>
+    <div id="plane_list">
         {% include 'planes/panels/plane_table.html' %}
     </div>
 {% endblock %}
@@ -25,10 +25,10 @@
             $('#id_manufacturer').material_select();
 
             $('#search_button').click(function() {
+                var id = parseInt($('#id_manufacturer').val(), 10);
                 $.ajax({
                     type: "GET",
-                    url: "/planes/filter/manufacturer/",
-                    data: $('#filter_form').serialize(),
+                    url: "/planes/filter/manufacturer/" + id + "/",
                     success: function(data){
                         $('#plane_list').html();
                         $('#plane_list').html(data);

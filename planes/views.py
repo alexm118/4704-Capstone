@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from planes.models import AirbusPlane, Plane
+from django.shortcuts import render, get_object_or_404
 from planes.models import AirbusPlane, Plane, Manufacturer
 from planes.serializers import AirbusPlaneSerializer
 from django.http import JsonResponse
@@ -23,14 +22,11 @@ def airbus_rest_plane(request, id):
     return JsonResponse(serializer.data)
 
 
-def filter_plane_list(request):
+def filter_plane_list(request, id):
     if request.method == 'GET':
-        form = PlaneForm(request.GET)
-        if form.is_valid():
-            manufacturer = form.cleaned_data['manufacturer']
-            planes = Plane.objects.filter(manufacturer_id=manufacturer)
-            print("Valid filter" )
-            return render(request, 'planes/panels/plane_table.html', context={'planes': planes})
+        manufacturer = get_object_or_404(Manufacturer, id=id)
+        planes = Plane.objects.filter(manufacturer=manufacturer)
+        return render(request, 'planes/panels/plane_table.html', context={'planes': planes})
     else:
         print('Invalid access')
 

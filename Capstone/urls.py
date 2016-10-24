@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^planes/(?P<id>[0-9]+)/$', display_plane, name="display_planes"),
     url(r'^planes/$',list_planes, name="plane_list"),
     url(r'^rest/airbus/(?P<id>[0-9]+)/$', airbus_rest_plane, name="airbus_rest_plane"),
-    url(r'^planes/filter/manufacturer/$', filter_plane_list, name="filter_planes"),
+    url(r'^planes/filter/manufacturer/(?P<id>[0-9]+)/$', filter_plane_list, name="filter_planes"),
 ]
