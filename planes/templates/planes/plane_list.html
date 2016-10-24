@@ -1,22 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <table class="bordered highlight">
-        <thead>
-            <tr>
-                <th>Manufacturer</th>
-                <th>Model</th>
-                <th>More Information</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for plane in planes %}
-                <tr>
-                    <td>{{ plane.manufacturer }}</td>
-                    <td>{{ plane.model }}</td>
-                    <td><a href="/planes/{{ plane.id }}">See More</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <form id="filter_form">
+        <div class="row">
+            <div class="col s3">
+                <div class="input-field ">
+                    {{ form.manufacturer }}
+                    <label for="id_manufacturer">Select Manufacturer</label>
+                </div>
+            </div>
+            <div class="col s3">
+                <button class="waves-effect waves-light btn blue" id="search_button">Search</button>
+            </div>
+        </div>
+    </form>
+    <div class="plane_list">
+        {% include 'planes/panels/plane_table.html' %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $('#id_manufacturer').material_select();
+
+            $('#search_button').click(function() {
+                $.ajax({
+                    type: "GET",
+                    url: "/planes/filter/manufacturer/",
+                    data: $('#filter_form').serialize(),
+                    success: function(data){
+                        $('#plane_list').html();
+                        $('#plane_list').html(data);
+                    }
+                }) ;
+            });
+        });
+    </script>
 {% endblock %}

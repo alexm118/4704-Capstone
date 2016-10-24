@@ -1,7 +1,8 @@
 from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
-from planes.models import GulfstreamPlane, Engine
+from planes.models import GulfstreamPlane, Engine, Manufacturer
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -22,7 +23,11 @@ class Command(BaseCommand):
             height = soup(text="Height")[1].find_next("td").get_text()
             wingspan = soup(text="Overall Span")[1].find_next("td").get_text() 
             manufacturer = "Gulfstream"
-
+            if Manufacturer.objects.filter(name=manufacturer).exists():
+                manufacturer = Manufacturer.objects.filter(name=manufacturer).first()
+            else:
+                manufacturer = Manufacturer(name=manufacturer)
+                manufacturer.save()
 
             if GulfstreamPlane.objects.filter(model=model).exists():
                     plane = GulfstreamPlane.objects.filter(model=model).first()
