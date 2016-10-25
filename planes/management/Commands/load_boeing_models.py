@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
-from planes.models import BoeingPlane
+from planes.models import BoeingPlane, Manufacturer
 
 
 class Command(BaseCommand):
@@ -65,6 +65,11 @@ class Command(BaseCommand):
             maximum_payload = soup.find(text="Maximum Payload").find_next().get_text
             baggage_volume = soup.find(text="Baggage Volume").find_next().get_text
 
+            if Manufacturer.objects.filter(name=manufacturer).exists():
+                manufacturer = Manufacturer.objects.filter(name=manufacturer).first()
+            else:
+                manufacturer = Manufacturer(name=manufacturer)
+                manufacturer.save()
 
             if BoeingPlane.objects.filter(model=model).exists():
                 plane = BoeingPlane.objects.filter(model=model).first()

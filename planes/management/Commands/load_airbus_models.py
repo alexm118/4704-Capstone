@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
-from planes.models import AirbusPlane, Engine
+from planes.models import AirbusPlane, Engine, Manufacturer
 
 
 class Command(BaseCommand):
@@ -37,6 +37,12 @@ class Command(BaseCommand):
                     engine_list.append(str(element.find("i").get_text()))
 
             engines = []
+
+            if Manufacturer.objects.filter(name=manufacturer):
+                manufacturer = Manufacturer.objects.filter(name=manufacturer).first()
+            else:
+                manufacturer = Manufacturer(name=manufacturer)
+                manufacturer.save()
 
             for engine in engine_list:
                 if Engine.objects.filter(name=engine).exists():
