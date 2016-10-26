@@ -57,7 +57,6 @@ class Command(BaseCommand):
             range = soup(text="Travel Range -")[0].find_next("div").get_text()
             engine = soup.find(text = re.compile("Engine")).replace("Engine - ",'')
             seating = soup.find("div", class_="col-md-3 nopadding", id="mydiv").get_text()
-            print(seating)
             model = url.split("/")[-2]
             lengthF = soup.find(text= re.compile("Cabin Length")).split(' ')
             length = lengthF[-3]
@@ -84,6 +83,6 @@ class Command(BaseCommand):
             else:
                 plane = BoeingPlane(model=model, plane_range=range, seating=seating, overall_length=length,
                                     overall_height=height, wingspan=wingspan, manufacturer=manufacturer,
-                                    bulk_hold_volume=baggage_volume, total_volume=maximum_payload)
+                                    bulk_hold_volume=baggage_volume, total_volume=maximum_payload, engines = engine)
                 plane.save()
                 print plane.model
