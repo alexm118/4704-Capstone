@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
 import re
-from planes.models import BoeingPlane
+from planes.models import BoeingPlane, Manufacturer
 
 
 class Command(BaseCommand):
@@ -71,6 +71,11 @@ class Command(BaseCommand):
             baggage_volumeF = soup.find(text=re.compile("Baggage Volume")).replace(u'\xa0',' ').split(' ')
             baggage_volume = baggage_volumeF[-3]
 
+            if Manufacturer.objects.filter(name=manufacturer).exists():
+                manufacturer = Manufacturer.objects.filter(name=manufacturer).first()
+            else:
+                manufacturer = Manufacturer(name=manufacturer)
+                manufacturer.save()
 
             if BoeingPlane.objects.filter(model=model).exists():
                 plane = BoeingPlane.objects.filter(model=model).first()
