@@ -62,6 +62,7 @@ class GulfstreamPlane(Plane):
     def __unicode__(self):
         return self.model
 
+
 class BoeingPlane(Plane):
     plane_range = models.CharField(max_length=25)
     seating = models.CharField(max_length=25)
@@ -72,6 +73,6 @@ class BoeingPlane(Plane):
     total_volume = models.CharField(max_length=25)
     thrust = models.CharField(max_length=25)
 
-    def __str__(self):
-        return self.model
+    def __unicode__(self):
+        return self.manufacture.name
 
