@@ -1,13 +1,23 @@
 from django.shortcuts import render, get_object_or_404
-from planes.models import AirbusPlane, Plane, Manufacturer
+from planes.models import AirbusPlane, Plane, Manufacturer, GulfstreamPlane, BoeingPlane
 from planes.serializers import AirbusPlaneSerializer
 from django.http import JsonResponse
 from planes.forms import PlaneForm
 
 
-def display_plane(request, id):
+def display_airbus_plane(request, id):
     plane = AirbusPlane.objects.get(id=id)
     return render(request, "planes/airbus_plane.html", context={'plane': plane})
+
+
+def display_gulfstream_plane(request, id):
+    plane = GulfstreamPlane.objects.get(id=id)
+    return render(request, "planes/gulfstream_plane.html", context={'plane': plane})
+
+
+def display_boeing_plane(request, id):
+    plane = BoeingPlane.objects.get(id=id)
+    return render(request, "planes/boeing_plane.html", context={'plane': plane})
 
 
 def list_planes(request):

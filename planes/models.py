@@ -48,6 +48,7 @@ class AirbusPlane(Plane):
     def __unicode__(self):
         return self.model
 
+
 class GulfstreamPlane(Plane):
     plane_range = models.CharField(max_length=25)
     seating = models.CharField(max_length=25)
