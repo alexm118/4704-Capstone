@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
 import re
-from planes.models import BoeingPlane, Manufacturer
+from planes.models import BoeingPlane, Manufacturer, Engine
 
 
 class Command(BaseCommand):
@@ -76,13 +76,27 @@ class Command(BaseCommand):
                 manufacturer = Manufacturer(name=manufacturer)
                 manufacturer.save()
 
+            engine_list = []
+            if Engine.objects.filter(name=engine).exists():
+                engine = Engine.objects.filter(name=engine).first()
+                engine_list.append(engine)
+            else:
+                engine = Engine(name=engine)
+                engine.save()
+                engine_list.append(engine)
+
             if BoeingPlane.objects.filter(model=model).exists():
                 plane = BoeingPlane.objects.filter(model=model).first()
+                plane.engines.add(*engine_list)
+                print(plane.engines.all())
+                plane.save()
                 print plane.model
 
             else:
                 plane = BoeingPlane(model=model, plane_range=range, seating=seating, overall_length=length,
                                     overall_height=height, wingspan=wingspan, manufacturer=manufacturer,
-                                    bulk_hold_volume=baggage_volume, total_volume=maximum_payload, engines = engine)
+                                    bulk_hold_volume=baggage_volume, total_volume=maximum_payload)
+                plane.save()
+                plane.engines.add(*engine_list)
                 plane.save()
                 print plane.model

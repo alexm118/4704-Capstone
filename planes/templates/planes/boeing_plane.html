@@ -45,8 +45,16 @@
                 <td>Total Volume</td>
                 <td>{{ plane.total_volume }}</td>
             </tr>
-                <td>Engine</td>
-                <td>{{ engine }}</td>
+            {% for engine in plane.engines.all %}
+                <tr>
+                    <td>Engine</td>
+                    <td>{{ engine }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>Engine</td>
+                    <td>No Engine in DB</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
