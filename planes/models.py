@@ -22,7 +22,8 @@ class Plane(models.Model):
     model = models.CharField(max_length=25)
     engines = models.ManyToManyField(Engine, related_name='engines')
 
-    def get_unique_manufacturers(self):
+    @staticmethod
+    def get_unique_manufacturers():
         planes = Plane.objects.all()
         manufacturer_list = [(10000, 'All'),]
         for plane in planes:
@@ -47,6 +48,7 @@ class AirbusPlane(Plane):
 
     def __unicode__(self):
         return self.model
+
 
 class GulfstreamPlane(Plane):
     plane_range = models.CharField(max_length=25)
