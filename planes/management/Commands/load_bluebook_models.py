@@ -43,14 +43,14 @@ class Command(BaseCommand):
                     plane_range = current_data[20].get_text()
 
                     engine_model = Engine(name=engine)
-                    engine_model.save()
+                    # engine_model.save()
 
-                    if BlueBookPlane.objects.filter(model=model, manufacturer=manufacturer).exists():
+                    if False: #BlueBookPlane.objects.filter(model=model, manufacturer=manufacturer).exists():
                         plane = BlueBookPlane.objects.filter(model=model).first()
                         print plane.model
 
                     else:
-                        plane = BlueBookPlane(model=model, engine=engine, thrust=thrust, max_speed_knots=max_speed_knots, recommended_cruise_knots=recommended_cruise_knots,
+                        plane = BlueBookPlane(model=model, engines=engine_model, thrust=thrust, max_speed_knots=max_speed_knots, recommended_cruise_knots=recommended_cruise_knots,
                                               stall_knots_dirty=stall_knots_dirty, fuel_gal_lbs=fuel_gal_lbs, all_eng_service_ceiling=all_eng_service_ceiling,
                                               eng_out_service_ceiling=eng_out_service_ceiling, all_eng_climb_rate=all_eng_climb_rate, eng_out_climb_rate=eng_out_climb_rate,
                                               takeoff_over_50_ft=takeoff_over_50_ft, takeoff_ground_run=takeoff_ground_run, landing_over_50_ft=landing_over_50_ft,landing_ground_roll=landing_ground_roll,
@@ -58,8 +58,8 @@ class Command(BaseCommand):
                                               wingspan=wingspan, plane_range=plane_range)
                         plane.save()
                         # plane.engines.add(engine)
-                        plane.save()
-                        print plane.model
+                        # plane.save()
+                        # print plane.model
 
                     print ""
                     print "Manu", manufacturer
