@@ -1,10 +1,9 @@
 from django import forms
-from planes.models import Plane
+from planes.models import Manufacturer, Plane
 
 
 class PlaneForm(forms.ModelForm):
-    plane = Plane.objects.all().first()
-    manufacturer = forms.ChoiceField(choices=plane.get_unique_manufacturers())
+    manufacturer = forms.ModelChoiceField(queryset=Manufacturer.objects.all())
 
     class Meta:
         model = Plane
