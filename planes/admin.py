@@ -1,5 +1,5 @@
 from django.contrib import admin
-from planes.models import AirbusPlane, Engine, GulfstreamPlane, BoeingPlane
+from planes.models import AirbusPlane, Engine, GulfstreamPlane, BoeingPlane, CessnaPlane
 
 
 admin.site.register(AirbusPlane)

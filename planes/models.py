@@ -78,3 +78,16 @@ class BoeingPlane(Plane):
     def __unicode__(self):
         return self.manufacture.name
 
+class CessnaPlane(Plane):
+    plane_range = models.CharField(max_length=25)
+    seating = models.CharField(max_length=25)
+    bulk_hold_volume = models.CharField(max_length=25)
+    wingspan = models.CharField(max_length=25)
+    overall_length = models.CharField(max_length=25)
+    overall_height = models.CharField(max_length=25)
+    total_volume = models.CharField(max_length=25)
+    thrust = models.CharField(max_length=25)
+
+    def __unicode__(self):
+        return self.manufacture.name
+
