@@ -50,15 +50,12 @@
                     <td>Engine</td>
                     <td>{{ engine }}</td>
                 </tr>
+            {% empty %}
+                <tr>
+                    <td>Engine</td>
+                    <td>No Engine in DB</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
-    <br>
-    <div class="row">
-        <div class="col s6 push-s3">
-            <a href="/rest/airbus/{{ plane.id }}/">
-                <button class="waves-effect waves-light btn blue">Generate JSON</button>
-            </a>
-        </div>
-    </div>
 {% endblock %}
