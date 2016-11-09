@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
-from planes.models import BlueBookPlane, Engine
+from planes.models import BlueBookPlane, Engine, Manufacturer
 
 
 class Command(BaseCommand):
@@ -16,6 +16,11 @@ class Command(BaseCommand):
             for row in rows:
                 if "header" in row['class']:
                     manufacturer = row.find_next("td").get_text()
+                    if Manufacturer.objects.filter(name=manufacturer).exists():
+                        manufacturer = Manufacturer.objects.filter(name=manufacturer).first()
+                    else:
+                        manufacturer = Manufacturer(name=manufacturer)
+                        manufacturer.save()
                     # print "NEW MANUF: ", manufacturer
                     # print ""
                 else:
