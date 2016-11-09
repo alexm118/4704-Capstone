@@ -59,7 +59,6 @@ class GulfstreamPlane(Plane):
     overall_height = models.CharField(max_length=25)
     total_volume = models.CharField(max_length=25)
     thrust = models.CharField(max_length=25)
-    #engines = models.ManyToManyField(Engine, related_name='gstream_engines')
 
     def __unicode__(self):
         return self.model
