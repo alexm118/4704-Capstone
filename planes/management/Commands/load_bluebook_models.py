@@ -47,7 +47,7 @@ class Command(BaseCommand):
 
                     if BlueBookPlane.objects.filter(model=model, manufacturer=manufacturer).exists():
                         plane = BlueBookPlane.objects.filter(model=model).first()
-                        print "exists: ", plane.model
+                        # print "exists: ", plane.model
 
                     else:
                         plane = BlueBookPlane(model=model, manufacturer=manufacturer, thrust=thrust, max_speed_knots=max_speed_knots, recommended_cruise_knots=recommended_cruise_knots,
@@ -59,7 +59,7 @@ class Command(BaseCommand):
                         plane.save()
                         plane.engines.add(engine_model)
                         plane.save()
-                        print plane.model
+                        # print plane.model
 
                     # print ""
                     # print "Manu", manufacturer
