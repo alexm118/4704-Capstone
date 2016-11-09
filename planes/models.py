@@ -65,20 +65,6 @@ class GulfstreamPlane(Plane):
         return self.model
 
 
-class BoeingPlane(Plane):
-    plane_range = models.CharField(max_length=25)
-    seating = models.CharField(max_length=25)
-    bulk_hold_volume = models.CharField(max_length=25)
-    wingspan = models.CharField(max_length=25)
-    overall_length = models.CharField(max_length=25)
-    overall_height = models.CharField(max_length=25)
-    total_volume = models.CharField(max_length=25)
-    thrust = models.CharField(max_length=25)
-
-    def __unicode__(self):
-        return self.manufacture.name
-
-
 class BlueBookPlane(Plane):
     thrust = models.CharField(max_length=25)
     max_speed_knots = models.CharField(max_length=25)
@@ -99,6 +85,21 @@ class BlueBookPlane(Plane):
     overall_height = models.CharField(max_length=25)
     wingspan = models.CharField(max_length=25)
     plane_range = models.CharField(max_length=25)
-
+    
     def __str__(self):
         return self.model
+
+
+class BoeingPlane(Plane):
+    plane_range = models.CharField(max_length=25)
+    seating = models.CharField(max_length=25)
+    bulk_hold_volume = models.CharField(max_length=25)
+    wingspan = models.CharField(max_length=25)
+    overall_length = models.CharField(max_length=25)
+    overall_height = models.CharField(max_length=25)
+    total_volume = models.CharField(max_length=25)
+    thrust = models.CharField(max_length=25)
+
+    def __unicode__(self):
+        return self.manufacture.name
+
