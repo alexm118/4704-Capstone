@@ -1,12 +1,14 @@
 from django.core.management import BaseCommand
 from bs4 import BeautifulSoup
 import urllib
-from planes.models import BlueBookPlane, Engine
+from planes.models import BlueBookPlane, Engine, Manufacturer
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         urls = ["http://www.aircraftbluebook.com/Tools/ABB/ShowSpecifications.do"]
+
+        manu=0
 
         for url in urls:
             html = urllib.urlopen(url).read()
@@ -16,6 +18,12 @@ class Command(BaseCommand):
             for row in rows:
                 if "header" in row['class']:
                     manufacturer = row.find_next("td").get_text()
+                    if Manufacturer.objects.filter(name=manufacturer).exists():
+                        manufacturer = Manufacturer.objects.filter(name=manufacturer).first()
+                    else:
+                        manufacturer = Manufacturer(name=manufacturer)
+                        manufacturer.save()
+                        manu = manu + 1
                     # print "NEW MANUF: ", manufacturer
                     # print ""
                 else:
@@ -59,9 +67,11 @@ class Command(BaseCommand):
                         plane.save()
                         plane.engines.add(engine_model)
                         plane.save()
-                        # print plane.model
+                        print plane.model
 
                     # print ""
                     # print "Manu", manufacturer
                     # print "model", model
                     # print "RANDGE", plane_range
+
+        print "Total manufacturers: ", manu

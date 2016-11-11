@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from planes.models import AirbusPlane, Plane, Manufacturer, GulfstreamPlane, BoeingPlane
-from planes.serializers import AirbusPlaneSerializer
+from planes.models import AirbusPlane, Plane, Manufacturer, GulfstreamPlane, BoeingPlane, BlueBookPlane
+from planes.serializers import AirbusPlaneSerializer, BoeingPlaneSerializer, BluebookPlaneSerializer
 from django.http import JsonResponse
 from planes.forms import PlaneForm
 
@@ -20,6 +20,11 @@ def display_boeing_plane(request, id):
     return render(request, "planes/boeing_plane.html", context={'plane': plane})
 
 
+def display_bluebook_plane(request, id):
+    plane = BlueBookPlane.objects.get(id=id)
+    return render(request, "planes/bluebook_plane.html", context={'plane': plane})
+
+
 def list_planes(request):
     planes = Plane.objects.all()
     form = PlaneForm()
@@ -34,6 +39,11 @@ def airbus_rest_plane(request, id):
 def boeing_rest_plane(request, id):
     plane = BoeingPlane.objects.get(id=id)
     serializer = BoeingPlaneSerializer(plane)
+    return JsonResponse(serializer.data)
+
+def bluebook_rest_plane(request, id):
+    plane = BlueBookPlane.objects.get(id=id)
+    serializer = BluebookPlaneSerializer(plane)
     return JsonResponse(serializer.data)
 
 def filter_plane_list(request, id):
