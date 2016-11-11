@@ -47,14 +47,15 @@ class Command(BaseCommand):
             range = soup(text="Travel Range -")[0].find_next("div").get_text()
             engine = soup.find(text = re.compile("Engine")).replace("Engine - ",'')
             seating = soup.find("div", class_="col-md-3 nopadding", id="mydiv").get_text()
-            model = url.split("/")[-2].replace("Boeing ",'')
+            model = url.split("/")[-2].replace("Cessna-",'')
+            print(model + "\n")
             lengthF = soup.find(text= re.compile("Cabin Length")).split(' ')
             length = lengthF[-3]
             heightF = soup.find(text=re.compile("Cabin Height")).split(' ')
             height = heightF[-3]
             wingspanF = soup.find(text=re.compile("Wingspan")).split(' ')
             wingspan = wingspanF[-3]
-            manufacturer = "Boeing"
+            manufacturer = "Cessna"
             maximum_payloadF = soup.find(text=re.compile("Maximum Payload")).split(' ')
             maximum_payload = maximum_payloadF[-3]
             baggage_volumeF = soup.find(text=re.compile("Baggage Volume")).replace(u'\xa0',' ').split(' ')
@@ -78,7 +79,7 @@ class Command(BaseCommand):
             if CessnaPlane.objects.filter(model=model).exists():
                 plane = CessnaPlane.objects.filter(model=model).first()
                 plane.engines.add(*engine_list)
-                print(plane.engines.all())
+                #print(plane.engines.all())
                 plane.save()
                 print plane.model
 

@@ -19,8 +19,9 @@ def display_boeing_plane(request, id):
     plane = BoeingPlane.objects.get(id=id)
     return render(request, "planes/boeing_plane.html", context={'plane': plane})
 
+
 def display_cessna_plane(request, id):
-    plane = BoeingPlane.objects.get(id=id)
+    plane = CessnaPlane.objects.get(id=id)
     return render(request, "planes/boeing_plane.html", context={'plane': plane})
 
 
@@ -35,6 +36,7 @@ def airbus_rest_plane(request, id):
     serializer = AirbusPlaneSerializer(plane)
     return JsonResponse(serializer.data)
 
+
 def boeing_rest_plane(request, id):
     plane = BoeingPlane.objects.get(id=id)
     serializer = BoeingPlaneSerializer(plane)
@@ -44,6 +46,7 @@ def cessna_rest_plane(request, id):
     plane = CessnaPlane.objects.get(id=id)
     serializer = CessnaPlaneSerializer(plane)
     return JsonResponse(serializer.data)
+
 
 def filter_plane_list(request, id):
     if request.method == 'GET':
