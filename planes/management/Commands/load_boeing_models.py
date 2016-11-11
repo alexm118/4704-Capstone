@@ -57,7 +57,7 @@ class Command(BaseCommand):
             range = soup(text="Travel Range -")[0].find_next("div").get_text()
             engine = soup.find(text = re.compile("Engine")).replace("Engine - ",'')
             seating = soup.find("div", class_="col-md-3 nopadding", id="mydiv").get_text()
-            model = url.split("/")[-2].replace("Boeing ",'')
+            model = url.split("/")[-2].replace("Boeing-",'')
             lengthF = soup.find(text= re.compile("Cabin Length")).split(' ')
             length = lengthF[-3]
             heightF = soup.find(text=re.compile("Cabin Height")).split(' ')
