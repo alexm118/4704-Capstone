@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from planes.views import display_airbus_plane, list_planes, airbus_rest_plane, filter_plane_list, \
-    display_gulfstream_plane, display_boeing_plane, display_cessna_plane
+    display_gulfstream_plane, display_boeing_plane, display_cessna_plane, airbus_rest_plane_all, airbus_rest_fields
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^planes/boeing/(?P<id>[0-9]+)/$', display_boeing_plane, name="display_boeing_plane"),
     url(r'^planes/cessna/(?P<id>[0-9]+)/$', display_cessna_plane, name="display_cessna_plane"),
     url(r'^planes/$',list_planes, name="plane_list"),
+    url(r'^rest/airbus/$', airbus_rest_plane_all, name='rest_airbus_all'),
+    url(r'^rest/airbus/fields/$', airbus_rest_fields, name='airbus_fields'),
     url(r'^rest/airbus/(?P<id>[0-9]+)/$', airbus_rest_plane, name="airbus_rest_plane"),
     url(r'^planes/filter/manufacturer/(?P<id>[0-9]+)/$', filter_plane_list, name="filter_planes"),
 ]

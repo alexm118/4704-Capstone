@@ -1,0 +1,40 @@
+{% if pager.num_pages > 1 %}
+{% if pager.has_previous %}
+    <li class="waves-effect">
+        <a onclick="page_change({{ pager.previous_page }});" data-page="{{ pager.previous_page }}"><span
+                class="fa fa-chevron-left"></span></a>
+    </li>
+{% else %}
+    <li class="disabled"><a><span class="fa fa-chevron-left"></span></a></li>
+{% endif %}
+
+{% if pager.pager_start > 1 %}
+    <li class="wave-effect first_page active"><a data-page="1">1</a></li>
+    <li class="ellipsis">...</li>
+{% endif %}
+
+{% for page_num in pager.pager_range %}
+    {% if page_num == pager.current_page %}
+        <li class="wave-effect current_page active"><a data-page="{{ page_num }}">{{ page_num }}</a></li>
+    {% else %}
+        <li class="wave-effect page_links inactive"><a class="client-link" onclick="page_change({{ page_num }});"
+                                              data-page="{{ page_num }}">{{ page_num }}</a>
+        </li>
+    {% endif %}
+{% endfor %}
+
+{% if pager.pager_end < pager.num_pages %}
+    <li class="ellipsis">...</li>
+    <li class="wave-effect last_page"><a onclick="page_change({{ pager.num_pages }});"
+                                         data-page="{{ pager.num_pages }}">{{ pager.num_pages }}</a></li>
+{% endif %}
+
+{% if pager.has_next %}
+    <li class="waves-effect next-page"><a onclick="page_change({{ pager.next_page }});"
+                                          data-page="{{ pager.next_page }}"><span
+            class="fa fa-chevron-right"></span></a>
+    </li>
+{% else %}
+    <li class="disabled"><a><span class="fa fa-chevron-right"></span></a></li>
+{% endif %}
+{% endif %}

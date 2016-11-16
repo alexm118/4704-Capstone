@@ -2,27 +2,69 @@
 
 {% block content %}
     <form id="filter_form">
-        <div class="row">
-            <div class="col s3">
+        {% csrf_token %}
+        <div class="row valign-wrapper">
+            <div class="col s6 valign">
                 <div class="input-field ">
                     {{ form.manufacturer }}
                     <label for="id_manufacturer">Select Manufacturer</label>
                 </div>
             </div>
+            <div class="col s3 valign">
+                <button type="button" class="waves-effect waves-light btn blue" id="search_button">Search</button>
+            </div>
+            {{ form.page }}
         </div>
     </form>
-    <div class="col s3">
-        <button class="waves-effect waves-light btn blue" id="search_button">Search</button>
-    </div>
     <div id="plane_list">
-        {% include 'planes/panels/plane_table.html' %}
+        <table class="bordered highlight" id="plane_list_table">
+            <thead>
+                <tr>
+                    <th>Manufacturer</th>
+                    <th>Model</th>
+                    <th>More Information</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% include 'planes/panels/plane_table.html' %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        {% if pager.num_pages > 1 %}
+            <ul class="pagination center" id="plane_list_pagination">
+                {% include 'planes/panels/pager.html' %}
+            </ul>
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block extra_js %}
     <script>
+        function plane_pagination(){
+            $.ajax({
+                type: 'POST',
+                url: '/planes/',
+                data: $('#filter_form').serialize(),
+                success: function (data) {
+                    $('#plane_list_table > tbody').empty().html(data.planes);
+                    $('#plane_list_pagination').empty().html(data.pager);
+                }
+            });
+        }
+
+        function page_change(page_num) {
+            $('#id_page').val(page_num);
+            plane_pagination();
+        }
+
         $(document).ready(function() {
             $('#id_manufacturer').material_select();
+
+            $('.filter').change(function () {
+                $('#id_page').val(1);
+                plane_pagination();
+            });
 
             $('#search_button').click(function() {
                 var id = parseInt($('#id_manufacturer').val(), 10);
@@ -30,11 +72,13 @@
                     type: "GET",
                     url: "/planes/filter/manufacturer/" + id + "/",
                     success: function(data){
-                        $('#plane_list').html();
-                        $('#plane_list').html(data);
+                        $('#plane_list > tbody').empty().html(data.planes);
+                        $('#plane_list_pagination').empty().html(data.pager);
+
                     }
                 }) ;
             });
+
         });
     </script>
 {% endblock %}
