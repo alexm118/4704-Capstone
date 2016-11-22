@@ -75,7 +75,12 @@ def list_planes(request):
 def airbus_rest_plane(request, id):
     plane = AirbusPlane.objects.get(id=id)
     serializer = AirbusPlaneSerializer(plane)
-    return JsonResponse(serializer.data)
+    fields = request.GET['fields']
+    fields = ''.join(fields).split()
+    response = {}
+    for field in fields:
+        response[str(field)] = serializer.data[str(field)]
+    return JsonResponse(response)
 
 
 def airbus_rest_plane_all(request):
