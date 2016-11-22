@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http.response import JsonResponse
+from django.db.models import Q
 from planes.serializers import AirbusPlaneSerializer, BoeingPlaneSerializer, CessnaPlaneSerializer
 from planes.models import AirbusPlane, Plane, Manufacturer, GulfstreamPlane, BoeingPlane, CessnaPlane
 from planes.forms import PlaneForm
@@ -103,30 +104,44 @@ def boeing_rest_plane(request, id):
     serializer = BoeingPlaneSerializer(plane)
     return JsonResponse(serializer.data)
 
+
 def cessna_rest_plane(request, id):
     plane = CessnaPlane.objects.get(id=id)
     serializer = CessnaPlaneSerializer(plane)
     return JsonResponse(serializer.data)
 
 
+def filter_plane_list(request):
+    if request.method == 'POST':
+        form = PlaneForm(request.POST)
+        query = Q()
+        if form.is_valid():
+            manufacturer = form.cleaned_data['manufacturer']
+            model = form.cleaned_data['model']
 
-def filter_plane_list(request, id):
-    if request.method == 'GET':
-        manufacturer = Manufacturer.objects.filter(id=id)
-        planes = Plane.objects.filter(manufacturer=manufacturer).order_by('model')
-        pager = Pager()
-        pager.page_size = 10
-        pager.data_set = planes
-        pager.get_paged_items()
-        context = {
-            'planes': pager.paged_items,
-            'pager': pager
-        }
-        return_data = {
-            'planes': render_to_string('planes/panels/plane_table.html', context=context),
-            'pager': render_to_string('planes/panels/pager.html', context=context)
-        }
-        return JsonResponse(return_data)
+            if model:
+                query |= Q(model__icontains=model)
+
+            if manufacturer:
+                query |= Q(manufacturer__name__icontains=manufacturer)
+
+            planes = Plane.objects.filter(query)
+            pager = Pager()
+            pager.page_size = 25
+            pager.data_set = planes
+            pager.get_paged_items()
+            context = {
+                'planes': pager.paged_items,
+                'pager': pager
+            }
+            return_data = {
+                'planes': render_to_string('planes/panels/plane_table.html', context=context),
+                'pager': render_to_string('planes/panels/pager.html', context=context)
+            }
+            return JsonResponse(return_data)
+        else:
+            print(form.errors)
+
     else:
         print('Invalid access')
 

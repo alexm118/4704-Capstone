@@ -4,10 +4,16 @@
     <form id="filter_form">
         {% csrf_token %}
         <div class="row valign-wrapper">
-            <div class="col s6 valign">
+            <div class="col s4 valign">
                 <div class="input-field ">
                     {{ form.manufacturer }}
-                    <label for="id_manufacturer">Select Manufacturer</label>
+                    <label for="id_manufacturer">Enter Manufacturer</label>
+                </div>
+            </div>
+            <div class="col s4 valign">
+                <div class="input-field">
+                    {{ form.model }}
+                    <label for="id_model">Enter Model</label>
                 </div>
             </div>
             <div class="col s3 valign">
@@ -47,8 +53,10 @@
                 url: '/planes/',
                 data: $('#filter_form').serialize(),
                 success: function (data) {
-                    $('#plane_list_table > tbody').empty().html(data.planes);
-                    $('#plane_list_pagination').empty().html(data.pager);
+                    $('#plane_list_table > tbody').html();
+                    $('#plane_list_table > tbody').html(data.planes);
+                    $('#plane_list_pagination').html();
+                    $('#plane_list_pagination').html(data.pager);
                 }
             });
         }
@@ -59,21 +67,21 @@
         }
 
         $(document).ready(function() {
-            $('#id_manufacturer').material_select();
-
             $('.filter').change(function () {
                 $('#id_page').val(1);
                 plane_pagination();
             });
 
             $('#search_button').click(function() {
-                var id = parseInt($('#id_manufacturer').val(), 10);
                 $.ajax({
-                    type: "GET",
-                    url: "/planes/filter/manufacturer/" + id + "/",
+                    type: "POST",
+                    url: "/planes/filter/",
+                    data: $('#filter_form').serialize(),
                     success: function(data){
-                        $('#plane_list > tbody').empty().html(data.planes);
-                        $('#plane_list_pagination').empty().html(data.pager);
+                        $('#plane_list_table > tbody').html();
+                        $('#plane_list_table > tbody').html(data.planes);
+                        $('#plane_list_pagination').html();
+                        $('#plane_list_pagination').html(data.pager);
 
                     }
                 }) ;

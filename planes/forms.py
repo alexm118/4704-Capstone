@@ -1,11 +1,7 @@
 from django import forms
-from planes.models import Manufacturer, Plane
 
 
-class PlaneForm(forms.ModelForm):
-    manufacturer = forms.ModelChoiceField(required=False, queryset=Manufacturer.objects.all())
-    page = forms.IntegerField(required=True, widget=forms.HiddenInput())
-
-    class Meta:
-        model = Plane
-        exclude = ('engines', 'model')
+class PlaneForm(forms.Form):
+    manufacturer = forms.CharField(required=False)
+    model = forms.CharField(required=False)
+    page = forms.IntegerField(required=False, widget=forms.HiddenInput())
