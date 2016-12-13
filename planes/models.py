@@ -147,3 +147,4 @@ class BlueBookHelicopter(Helicopter):
 
     def __str__(self):
         return self.model
+

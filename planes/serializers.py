@@ -2,6 +2,7 @@ from rest_framework import serializers
 from planes.models import AirbusPlane
 from planes.models import BoeingPlane
 from planes.models import BlueBookPlane
+from planes.models import BlueBookHelicopter
 
 
 class AirbusPlaneSerializer(serializers.ModelSerializer):
@@ -23,4 +24,12 @@ class BluebookPlaneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BlueBookPlane
+        fields = '__all__'
+
+
+class BlueBookHelicopterSerializer(serializers.ModelSerializer):
+    engines = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = BlueBookHelicopter
         fields = '__all__'

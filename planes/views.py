@@ -27,8 +27,17 @@ def display_bluebook_plane(request, id):
 
 def display_bluebook_heli(request, id):
     heli = BlueBookHelicopter.objects.get(id=id)
-    return render(request, "helis/bluebook_heli.html", context={'heli': heli})
 
+    result_dict = []
+    for field in heli._meta.get_fields():
+        if field.name == 'helicopter_ptr':
+            result_dict.append(('Manufacturer', getattr(heli, field.name)))
+        elif field.name == 'id' or field.name == 'manufacturer':
+            pass
+        else:
+            result_dict.append((field.name, getattr(heli, field.name)))
+
+    return render(request, "helis/bluebook_heli.html", context={'result_dict': result_dict, 'heli': heli})
 
 def list_planes(request):
     planes = Plane.objects.all()
@@ -55,6 +64,46 @@ def bluebook_rest_plane(request, id):
     plane = BlueBookPlane.objects.get(id=id)
     serializer = BluebookPlaneSerializer(plane)
     return JsonResponse(serializer.data)
+
+
+def bluebook_rest_plane_all(request):
+    planes = BlueBookPlane.objects.all()
+    results = []
+    for plane in planes:
+        serializer = BluebookPlaneSerializer(plane)
+        results.append(serializer.data)
+
+    return JsonResponse(results, safe=False)
+
+
+def bluebook_rest_fields(request):
+    results = [f.name for f in BlueBookPlane._meta.get_fields()]
+    return JsonResponse(results, safe=False)
+
+def bluebook_rest_heli(request, id):
+    plane = BlueBookHelicopter.objects.get(id=id)
+    serializer = AirbusPlaneSerializer(plane)
+    fields = request.GET['fields']
+    fields = ''.join(fields).split()
+    response = {}
+    for field in fields:
+        response[str(field)] = serializer.data[str(field)]
+    return JsonResponse(response)
+
+
+def bluebook_rest_heli_all(request):
+    planes = BlueBookHelicopter.objects.all()
+    results = []
+    for plane in planes:
+        serializer = BlueBookHelicopterSerializer(plane)
+        results.append(serializer.data)
+
+    return JsonResponse(results, safe=False)
+
+
+def bluebook_rest_heli_fields(request):
+    results = [f.name for f in BlueBookHelicopter._meta.get_fields()]
+    return JsonResponse(results, safe=False)
 
 
 def filter_plane_list(request, id):
