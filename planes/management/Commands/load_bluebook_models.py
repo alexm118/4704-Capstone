@@ -24,6 +24,7 @@ class Command(BaseCommand):
                         manufacturer = Manufacturer(name=manufacturer)
                         manufacturer.save()
                         manu = manu + 1
+
                     # print "NEW MANUF: ", manufacturer
                     # print ""
                 else:

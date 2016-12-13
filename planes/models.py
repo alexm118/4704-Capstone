@@ -77,7 +77,7 @@ class GulfstreamPlane(Plane):
     overall_height = models.CharField(max_length=25)
     total_volume = models.CharField(max_length=25)
     thrust = models.CharField(max_length=25)
-    #engines = models.ManyToManyField(Engine, related_name='gstream_engines')
+    # engines = models.ManyToManyField(Engine, related_name='gstream_engines')
 
     def __unicode__(self):
         return self.model
@@ -147,4 +147,17 @@ class BlueBookHelicopter(Helicopter):
 
     def __str__(self):
         return self.model
+
+class CessnaPlane(Plane):
+    plane_range = models.CharField(max_length=25)
+    seating = models.CharField(max_length=25)
+    bulk_hold_volume = models.CharField(max_length=25)
+    wingspan = models.CharField(max_length=25)
+    overall_length = models.CharField(max_length=25)
+    overall_height = models.CharField(max_length=25)
+    total_volume = models.CharField(max_length=25)
+    thrust = models.CharField(max_length=25)
+
+    def __unicode__(self):
+        return self.manufacture.name
 

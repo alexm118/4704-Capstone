@@ -1,18 +1,7 @@
-<table class="bordered highlight">
-    <thead>
-        <tr>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>More Information</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for plane in planes %}
-            <tr>
-                <td>{{ plane.manufacturer }}</td>
-                <td>{{ plane.model }}</td>
-                <td><a href="/planes/{{ plane.manufacturer.name|slugify }}/{{ plane.id }}">See More</a></td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% for plane in planes %}
+    <tr>
+        <td>{{ plane.manufacturer }}</td>
+        <td>{{ plane.model }}</td>
+        <td><a href="/planes/{{ plane.manufacturer.name|slugify }}/{{ plane.id }}">See More</a></td>
+    </tr>
+{% endfor %}
