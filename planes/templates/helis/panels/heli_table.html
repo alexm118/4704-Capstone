@@ -7,11 +7,11 @@
         </tr>
     </thead>
     <tbody>
-        {% for plane in planes %}
+        {% for heli in helis %}
             <tr>
-                <td>{{ plane.manufacturer }}</td>
-                <td>{{ plane.model }}</td>
-                <td><a href="/planes/{{ plane.manufacturer.name|slugify }}/{{ plane.id }}">See More</a></td>
+                <td>{{ heli.manufacturer }}</td>
+                <td>{{ heli.model }}</td>
+                <td><a href="/helis/{{ heli.manufacturer.name|slugify }}/{{ heli.id }}">See More</a></td>
             </tr>
         {% endfor %}
     </tbody>
