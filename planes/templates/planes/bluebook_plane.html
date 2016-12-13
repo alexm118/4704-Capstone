@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="striped bordered">
+        <thead>
+            <tr>
+                <th>Specification</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Manufacturer</td>
+                <td>{{ plane.manufacturer }}</td>
+            </tr>
+            <tr>
+                <td>Model</td>
+                <td>{{ plane.model }}</td>
+            </tr>
+            <tr>
+                <td>Thrust</td>
+                <td>{{ plane.thrust }}</td>
+            </tr>
+
+
+            <tr>
+                <td>Range</td>
+                <td>{{ plane.plane_range }}</td>
+            </tr>
+            <tr>
+                <td>Wingspan</td>
+                <td>{{ plane.wingspan }}</td>
+            </tr>
+            <tr>
+                <td>Empty Weight (lbs)</td>
+                <td>{{ plane.empty_weight_lbs }}</td>
+            </tr>
+            <tr>
+                <td>Gross Weight (lbs)</td>
+                <td>{{ plane.gross_weight_lbs }}</td>
+            </tr>
+
+            <tr>
+                <td>Landing Ground Roll</td>
+                <td>{{ plane.landing_ground_roll }}</td>
+            </tr>
+            <tr>
+                <td>Landing Over 50 ft</td>
+                <td>{{ plane.landing_over_50_ft }}</td>
+            </tr>
+
+            <tr>
+                <td>Max Speed (knots)</td>
+                <td>{{ plane.max_speed_knots }}</td>
+            </tr>
+
+            <tr>
+                <td>Recommended Cruise Speed (knots)</td>
+                <td>{{ plane.recommended_cruise_knots }}</td>
+            </tr>
+
+            <tr>
+                <td>Stall Knots Dirty (knots)</td>
+                <td>{{ plane.stall_knots_dirty }}</td>
+            </tr>
+
+            <tr>
+                <td>Fuel Gallons (lbs)</td>
+                <td>{{ plane.fuel_gal_lbs }}</td>
+            </tr>
+
+
+            <tr>
+                <td>Fuel Gallons (lbs)</td>
+                <td>{{ plane.fuel_gal_lbs }}</td>
+            </tr>
+            <tr>
+                <td>All Engines Out Service Ceiling</td>
+                <td>{{ plane.all_eng_service_ceiling }}</td>
+            </tr>
+            <tr>
+                <td>One Engine Out Service Ceiling</td>
+                <td>{{ plane.eng_out_service_ceiling }}</td>
+            </tr>
+            <tr>
+                <td>All Engine Rate of Climb</td>
+                <td>{{ plane.all_eng_climb_rate }}</td>
+            </tr>
+            <tr>
+                <td>One Engine Out Rate of Climb</td>
+                <td>{{ plane.eng_out_climb_rate }}</td>
+            </tr>
+            <tr>
+                <td>Takeoff Over 50 ft</td>
+                <td>{{ plane.takeoff_over_50_ft }}</td>
+            </tr>
+            <tr>
+                <td>Takeoff Ground Run</td>
+                <td>{{ plane.takeoff_ground_run }}</td>
+            </tr>
+
+            <tr>
+                <td>Length</td>
+                <td>{{ plane.overall_length }}</td>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td>{{ plane.overall_height }}</td>
+            </tr>
+
+            {% for engine in plane.engines.all %}
+                <tr>
+                    <td>Engine</td>
+                    <td>{{ engine }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <div class="row">
+        <div class="col s6 push-s3">
+            <a href="/rest/{{ plane.manufacturer.name|slugify }}/{{ plane.id }}/">
+                <button class="waves-effect waves-light btn blue">Generate JSON</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}

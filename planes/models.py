@@ -35,6 +35,24 @@ class Plane(models.Model):
     def __unicode__(self):
         return self.manufacturer.name
 
+class Helicopter(models.Model):
+    manufacturer = models.ForeignKey(Manufacturer, null=True, blank=True)
+    model = models.CharField(max_length=25)
+
+
+    @staticmethod
+    def get_unique_manufacturers():
+        helis = Helicopter.objects.all()
+        manufacturer_list = [(10000, 'All'),]
+        for heli in helis:
+            tuple = (heli.manufacturer.id, heli.manufacturer)
+            if tuple not in manufacturer_list:
+                manufacturer_list.append(tuple)
+        return manufacturer_list
+
+    def __unicode__(self):
+        return self.manufacturer.name
+
 
 class AirbusPlane(Plane):
     plane_range = models.CharField(max_length=25)
@@ -85,7 +103,7 @@ class BlueBookPlane(Plane):
     overall_height = models.CharField(max_length=25)
     wingspan = models.CharField(max_length=25)
     plane_range = models.CharField(max_length=25)
-    
+
     def __str__(self):
         return self.model
 
@@ -103,6 +121,32 @@ class BoeingPlane(Plane):
     def __unicode__(self):
         return self.manufacture.name
 
+class BlueBookHelicopter(Helicopter):
+    max_speed_knots = models.CharField(max_length=25)
+    cruise_knots = models.CharField(max_length=25)
+    vne_knots = models.CharField(max_length=25)
+    roc_knots = models.CharField(max_length=25)
+    cruise_time = models.CharField(max_length=25)
+    fueld_avg_gph = models.CharField(max_length=25)
+    ful_std_usable_gas = models.CharField(max_length=25)
+    fuel_opt_gal = models.CharField(max_length=25)
+    gross_internal_load = models.CharField(max_length=25)
+    gross_external_load = models.CharField(max_length=25)
+    empty_weight_lbs = models.CharField(max_length=25)
+    external_load_limit = models.CharField(max_length=25)
+    service_ceiling_all_engs = models.CharField(max_length=25)
+    hige_max_gross = models.CharField(max_length=25)
+    hoge_max_gross = models.CharField(max_length=25)
+    mr_blades_dia = models.CharField(max_length=25)
+    num_blades = models.CharField(max_length=25)
+    blade_material = models.CharField(max_length=25)
+    roto_type = models.CharField(max_length=25)
+    storage_width = models.CharField(max_length=25)
+    overall_length = models.CharField(max_length=25)
+    overall_height = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.model
 
 class CessnaPlane(Plane):
     plane_range = models.CharField(max_length=25)
