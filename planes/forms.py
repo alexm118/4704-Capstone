@@ -1,5 +1,5 @@
 from django import forms
-from planes.models import Manufacturer, Plane, Helicopter
+from planes.models import Manufacturer, Plane
 
 
 class PlaneForm(forms.ModelForm):
@@ -7,12 +7,4 @@ class PlaneForm(forms.ModelForm):
 
     class Meta:
         model = Plane
-        exclude = ('engines', 'model')
-
-
-class HeliForm(forms.ModelForm):
-    manufacturer = forms.ModelChoiceField(queryset=Manufacturer.objects.all())
-
-    class Meta:
-        model = Helicopter
         exclude = ('engines', 'model')

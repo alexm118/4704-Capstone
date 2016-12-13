@@ -66,11 +66,3 @@ class Command(BaseCommand):
                 plane.engines.add(*engines)
                 plane.save()
                 print plane.model
-
-
-
-
-
-
-
-

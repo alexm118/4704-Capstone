@@ -11,7 +11,7 @@
             <tr>
                 <td>{{ plane.manufacturer }}</td>
                 <td>{{ plane.model }}</td>
-                <td><a href="/planes/{{ plane.manufacturer.name|slugify }}/{{ plane.id }}">See More</a></td>
+                <td><a href="/planes/{{ plane.id }}">See More</a></td>
             </tr>
         {% endfor %}
     </tbody>
