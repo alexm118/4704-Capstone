@@ -6,6 +6,10 @@ from planes.serializers import AirbusPlaneSerializer, BoeingPlaneSerializer, Ces
 from planes.models import AirbusPlane, Plane, Manufacturer, GulfstreamPlane, BoeingPlane, CessnaPlane
 from planes.forms import PlaneForm
 from planes.utils import Pager
+from planes.models import AirbusPlane, Plane, Manufacturer, GulfstreamPlane, BoeingPlane, BlueBookPlane, Helicopter, BlueBookHelicopter
+from planes.serializers import AirbusPlaneSerializer, BoeingPlaneSerializer, BluebookPlaneSerializer
+from django.http import JsonResponse
+from planes.forms import PlaneForm, HeliForm
 
 
 def display_airbus_plane(request, id):
@@ -30,6 +34,16 @@ def display_gulfstream_plane(request, id):
 def display_boeing_plane(request, id):
     plane = BoeingPlane.objects.get(id=id)
     return render(request, "planes/boeing_plane.html", context={'plane': plane})
+
+
+def display_bluebook_plane(request, id):
+    plane = BlueBookPlane.objects.get(id=id)
+    return render(request, "planes/bluebook_plane.html", context={'plane': plane})
+
+
+def display_bluebook_heli(request, id):
+    heli = BlueBookHelicopter.objects.get(id=id)
+    return render(request, "helis/bluebook_heli.html", context={'heli': heli})
 
 
 def display_cessna_plane(request, id):
@@ -72,6 +86,11 @@ def list_planes(request):
         pager.get_paged_items()
         return render(request, "planes/plane_list.html", context={'planes': pager.paged_items, 'form': form, 'pager': pager})
 
+def list_helis(request):
+    helis = Helicopter.objects.all()
+    form = HeliForm()
+    return render(request, "helis/heli_list.html", context={'helis': helis, 'form': form})
+
 
 def airbus_rest_plane(request, id):
     plane = AirbusPlane.objects.get(id=id)
@@ -104,6 +123,17 @@ def boeing_rest_plane(request, id):
     serializer = BoeingPlaneSerializer(plane)
     return JsonResponse(serializer.data)
 
+def bluebook_rest_plane(request, id):
+    plane = BlueBookPlane.objects.get(id=id)
+    serializer = BluebookPlaneSerializer(plane)
+    return JsonResponse(serializer.data)
+
+
+def filter_plane_list(request, id):
+    if request.method == 'GET':
+        if int(id) != 10000:
+            manufacturer = get_object_or_404(Manufacturer, id=id)
+            planes = Plane.objects.filter(manufacturer=manufacturer)
 
 def cessna_rest_plane(request, id):
     plane = CessnaPlane.objects.get(id=id)
@@ -147,3 +177,18 @@ def filter_plane_list(request):
 
     planes = Plane.objects.all().order_by('manufacturer', 'model')
     return render(request, "planes/plane_list.html", context={'planes': planes})
+
+
+def filter_heli_list(request, id):
+    if request.method == 'GET':
+        if int(id) != 10000:
+            manufacturer = get_object_or_404(Manufacturer, id=id)
+            helis = Helicopter.objects.filter(manufacturer=manufacturer)
+        else:
+            helis = Helicopter.objects.all()
+        return render(request, 'helis/panels/heli_table.html', context={'helis': helis})
+    else:
+        print('Invalid access')
+
+    helis = Helicopter.objects.all().order_by('manufacturer', 'model')
+    return render(request, "helis/heli_list.html", context={'helis': helis})

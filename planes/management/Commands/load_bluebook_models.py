@@ -8,6 +8,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         urls = ["http://www.aircraftbluebook.com/Tools/ABB/ShowSpecifications.do"]
 
+        manu=0
+
         for url in urls:
             html = urllib.urlopen(url).read()
             soup = BeautifulSoup(html, "html.parser")
@@ -21,6 +23,7 @@ class Command(BaseCommand):
                     else:
                         manufacturer = Manufacturer(name=manufacturer)
                         manufacturer.save()
+                        manu = manu + 1
                     # print "NEW MANUF: ", manufacturer
                     # print ""
                 else:
@@ -70,3 +73,5 @@ class Command(BaseCommand):
                     # print "Manu", manufacturer
                     # print "model", model
                     # print "RANDGE", plane_range
+
+        print "Total manufacturers: ", manu
