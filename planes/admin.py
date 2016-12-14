@@ -8,3 +8,4 @@ admin.site.register(CessnaPlane)
 admin.site.register(BlueBookPlane)
 admin.site.register(BoeingPlane)
 admin.site.register(Engine)
+

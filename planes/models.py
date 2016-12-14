@@ -149,6 +149,7 @@ class BlueBookHelicopter(Helicopter):
         return self.model
 
 
+
 class CessnaPlane(Plane):
     plane_range = models.CharField(max_length=25)
     seating = models.CharField(max_length=25)
